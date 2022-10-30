@@ -82,45 +82,19 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const getMe = asyncHandler(async (req, res) => {
-  // this is a private function
-  // middleware is a function that runs during the request response cycle
-  // dzięki naszemu authMiddleware.js możemy wykorzystać ustalone tam req.user w naszym getMe
-  // trzeba pamiętać, że dodaliśmy w userRoutes nasz middleware przed funkcją getMe ldatego też możemy wykorzystać req.user w getMe
-
-  // res.status(200).json({message: `get me User ${req.user.name}`})
-
   res.status(200).json(req.user);
 });
-
-// generacja tokenu JWT
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 };
 
 const getAllRegisteredUsers = asyncHandler(async (req, res) => {
-  // console.log(req.query.id);
-  // const userrr = await User.findById(req.query.id);
-  // console.log(userrr.status);
-  // if (userrr.status === "active") {
-  //   // console.log("authorized");
-  //   // next();
-
-  //   console.log("authorized");
   const users = await User.find({});
   res.status(200).json(users);
-  // } else {
-  //   // }else {
-  //   //   // console.log(error);
-  //   //   // res.status(401).send({ error: "Something failed!" });
-  //   res.status(401).send({ error: "Something failed!" });
-  //   return new Error("invalid credentials");
-  // }
 });
 const deleteUser = asyncHandler(async (req, res) => {
-  // console.log("controller: ", req.body.userID);
-  const userrrr = await User.findByIdAndDelete(req.body.userID);
-  // const user = await User.findByIdAndDelete(req.params.id);
+  const user = await User.findByIdAndDelete(req.body.userID);
   res.status(200).json({ id: req.body.userID });
 });
 const blockUser = asyncHandler(async (req, res) => {
@@ -132,7 +106,6 @@ const blockUser = asyncHandler(async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
-  // console.log(updatedUser);
 
   res.status(200).json(updatedUser);
 });

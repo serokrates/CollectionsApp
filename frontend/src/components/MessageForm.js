@@ -1,17 +1,16 @@
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
 import {
   createComment,
   getCommentsForID,
-  reset,
-  likesComment,
 } from "../features/comments/commentsSlice";
 import Box from "@mui/material/Box";
 import CommentSection from "./CommentSection";
 import socketIO from "socket.io-client";
-// import { socket } from "../features/socket/socket";
+import Button from "@mui/material/Button";
+
 const port = process.env.PORT || 5000;
 // lokalnie
 export const socket = socketIO.connect(`socialappmateusz.herokuapp.com`);
@@ -23,26 +22,18 @@ function MessageForm({ itemID }) {
   const { comments, isLoading, isError, message } = useSelector(
     (state) => state.comments
   );
-  console.log(comments.length);
-  // console.log(itemID);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const sendMessage = (itemID) => {
     socket.emit("post_comment", { message: itemID });
-    console.log(
-      "post_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_comment"
-    );
   };
 
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
       navigate("/login");
     } else if (user) {
-      // console.log(text);
       let d = {
         text: text,
         itemID: itemID,
@@ -56,39 +47,22 @@ function MessageForm({ itemID }) {
     }
   };
 
-  // console.log(comments);
   const [text, setText] = useState("");
-  // const [connected, setConnected] = useState(false);
-  // // IT IS HERE
-  // useEffect(() => {
-  //   socket.emit("connection");
-  //   const eventHandler = () => setConnected(true);
-  //   socket.on("connected", eventHandler);
-  //   // unsubscribe from event for preventing memory leaks
-  //   return () => {
-  //     socket.off("WELCOME_FROM_SERVER", eventHandler);
-  //   };
-  // }, []);
+
   useEffect(() => {
     console.log("RENDER [dispatch]");
     dispatch(getCommentsForID(itemID));
   }, [dispatch]);
-  useEffect(() => {
-    console.log("RENDER [comments]");
-    // console.log("comments: ", comments);
-  }, [comments]);
+
   useEffect(() => {
     socket.on("receive_comment", (data) => {
       if (data.message === itemID) {
         console.log("TAK TO JEST TEN ITEM: ", data);
         dispatch(getCommentsForID(data.message));
-        // console.log(comments);
       }
     });
   }, [socket]);
   return (
-    // <>
-    //   {connected ? (
     <>
       <Grid item xs={8} sx={{ mt: "2%" }}>
         <Box align={"right"}>
@@ -98,9 +72,23 @@ function MessageForm({ itemID }) {
               rows="3"
               onChange={(e) => setText(e.target.value)}
             ></textarea>
-            <button type="submit" class="btn btn-dark px-2 mb-2 w-200">
+            <Button
+              type="submit"
+              size="small"
+              sx={{
+                width: "auto",
+
+                background:
+                  "linear-gradient(to left,rgba(230, 203, 87,0.5),transparent)",
+                backgroundColor: "#44e2ce",
+                color: "white",
+                boxShadow:
+                  "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                textDecoration: "none",
+              }}
+            >
               Add a comment
-            </button>
+            </Button>
           </form>
         </Box>
         {comments.length !== 0 ? (
@@ -108,14 +96,10 @@ function MessageForm({ itemID }) {
             <CommentSection comments={comments} />
           </Box>
         ) : (
-          <>NIE MA KOMENTARZY</>
+          <>currently there are no comments to show</>
         )}
       </Grid>
     </>
-    //   ) : (
-    //     <p>Not connected yet...</p>
-    //   )}
-    // </>
   );
 }
 

@@ -1,11 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { login, resetUser } from "../features/auth/authSlice";
-import Header from "../components/header";
+
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

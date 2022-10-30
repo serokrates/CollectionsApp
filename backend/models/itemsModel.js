@@ -25,24 +25,6 @@ const itemsSchema = mongoose.Schema(
     comments: {
       type: [],
     },
-    // userDefinedInt1: {
-    //   type: [String, Number],
-    // },
-    // userDefinedInt2: {
-    //   type: Number,
-    // },
-    // userDefinedInt3: {
-    //   type: Number,
-    // },
-    // userDefinedString1: {
-    //   type: String,
-    // },
-    // userDefinedString2: {
-    //   type: String,
-    // },
-    // userDefinedString3: {
-    //   type: String,
-    // },
   },
   {
     timestamps: true,

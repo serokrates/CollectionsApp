@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const API_URL = "/api/collection";
 
 const deleteCollection = async (collectionID, token) => {

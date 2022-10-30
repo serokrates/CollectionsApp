@@ -1,24 +1,24 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Box from "@mui/material/Box";
-import { Divider, Avatar, Grid, Paper } from "@mui/material";
+import { Avatar, Divider, Grid, IconButton, Paper } from "@mui/material";
 import block from "../images/block.svg";
 import Button from "@mui/material/Button";
 import {
   createComment,
   getCommentsForID,
-  reset,
   likesComment,
 } from "../features/comments/commentsSlice";
-import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import socketIO from "socket.io-client";
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 // import { socket } from "../features/socket/socket";
 const port = process.env.PORT || 5000;
 // lokalnie
 export const socket = socketIO.connect(`socialappmateusz.herokuapp.com`);
+
 function CommentSection({ comments }) {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -26,12 +26,8 @@ function CommentSection({ comments }) {
   console.log(comments[0].itemID);
   const sendMessage = (itemID) => {
     socket.emit("post_comment", { message: itemID });
-    console.log(
-      "post_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_commentpost_comment"
-    );
   };
   const deleteComment = async (e) => {
-    // e.preventDefault();
     if (!user) {
       console.log("u cant delete this comment");
     } else if (user) {
@@ -93,62 +89,63 @@ function CommentSection({ comments }) {
                       }}
                     >
                       added: {comments[key].createdAt}
-                    </p>{" "}
-                    <Tooltip
-                      style={{
-                        textAlign: "right",
-                      }}
-                      title={
-                        <React.Fragment>
-                          Who likes:
-                          {comments[key].whoLikes.map(({ userID }, key) => (
-                            <p key={key}> {userID}</p>
-                          ))}
-                        </React.Fragment>
-                      }
-                    >
-                      <Box>Likes: {comments[key].whoLikes.length}</Box>
-                    </Tooltip>
-                    <Button
-                      variant="outline-success"
-                      onClick={() =>
-                        dispatch(
-                          likesComment({
-                            commentID: comments[key]._id,
-                            actionToDo: "add",
-                          })
-                        )
-                      }
-                    >
-                      add a like
-                    </Button>
-                    <Button
-                      variant="outline-success"
-                      onClick={() =>
-                        dispatch(
-                          likesComment({
-                            commentID: comments[key]._id,
-                            actionToDo: "delete",
-                          })
-                        )
-                      }
-                    >
-                      delete a like
-                    </Button>
-                  </Grid>
-                  <Grid justifyContent="right">
-                    <Box>
-                      <IconButton
-                        onClick={() => deleteComment(comments[key]._id)}
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    </Box>
-                  </Grid>
-                </Grid>
+                    </p>
 
-                <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
+                    <Grid container alignItems="center">
+                      <Grid item xs={4} align={"right"}
+                        variant="outline-success"
+                        onClick={() =>
+                          dispatch(
+                            likesComment({
+                              commentID: comments[key]._id,
+                              actionToDo: "add",
+                            })
+                          )
+                        }
+                      >
+                        <ThumbUpOffAltIcon/>
+                      </Grid>
+                      <Grid item xs={4}> 
+                        <Tooltip
+                          title={
+                            <React.Fragment>
+                              Who likes:
+                              {comments[key].whoLikes.map(({ userID }, key) => (
+                                <p key={key}> {userID}</p>
+                              ))}
+                            </React.Fragment>
+                          }
+                        >
+                          <Box sx={{fontSize: 12}}>Likes: {comments[key].whoLikes.length}</Box>
+                        </Tooltip>
+                      </Grid>
+                      <Grid item xs={4} align={"left"}
+                        variant="outline-success"
+                        onClick={() =>
+                          dispatch(
+                            likesComment({
+                              commentID: comments[key]._id,
+                              actionToDo: "delete",
+                            })
+                          )
+                        }
+                      >
+                        <ThumbDownOffAltIcon/>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Box sx={{pt:1}}>
+                    <IconButton
+                      onClick={() => deleteComment(comments[key]._id)}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </Box>
+                  
+                </Grid>
+                <Divider sx={{ mt:10, backgroundColor:"black" }} />
               </>
+              
             ))}
           </Paper>
         </Box>

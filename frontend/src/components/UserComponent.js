@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import block from "../images/block.svg";
 import unblock from "../images/unblock.svg";
-import { deleteUser, changeStatus } from "../features/users/usersSlice";
-import { useState, useEffect } from "react";
+import { changeStatus, deleteUser } from "../features/users/usersSlice";
 import { logout, resetUser } from "../features/auth/authSlice";
-import { Link, useNavigate } from "react-router-dom";
-import { getUsers, reset } from "../features/users/usersSlice";
+import { useNavigate } from "react-router-dom";
 
 function UserComponent({ user, index }) {
   const navigate = useNavigate();
@@ -26,7 +24,6 @@ function UserComponent({ user, index }) {
     dispatch(changeStatus([id, "blocked", userCurrent._id]));
 
     if (userCurrent._id === id) {
-      // console.log("ten sam user");
       dispatch(logout());
       dispatch(resetUser());
       navigate("/login");
@@ -34,13 +31,6 @@ function UserComponent({ user, index }) {
   };
   const activateUser = (id) => {
     dispatch(changeStatus([id, "active", userCurrent._id]));
-
-    // if (userCurrent._id === id) {
-    //   // console.log("ten sam user");
-    //   dispatch(logout());
-    //   dispatch(resetUser());
-    //   navigate("/login");
-    // }
   };
   return (
     <tbody>

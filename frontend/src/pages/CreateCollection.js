@@ -1,14 +1,11 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   createCollection,
   editCollection,
 } from "../features/collections/collectionsSlice";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import { useLocation, testvalue } from "react-router-dom";
+
 function CreateCollection() {
   const [formData, setFormData] = useState({
     name: "",
@@ -30,14 +27,6 @@ function CreateCollection() {
   const { user, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
-  useEffect(() => {
-    if (isError) {
-      console.log(message);
-    }
-    if (isSuccess || user) {
-      //   navigate("/");
-    }
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({

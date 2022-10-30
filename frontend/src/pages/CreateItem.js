@@ -1,12 +1,12 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { createItem } from "../features/items/itemsSlice";
-import { useLocation, testvalue } from "react-router-dom";
-
+import { getAllTags } from "../features/items/itemsSlice";
 import { WithContext as ReactTags } from "react-tag-input";
+
 function CreateItem() {
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -28,24 +28,14 @@ function CreateItem() {
     (state) => state.auth
   );
 
-  useEffect(() => {
-    if (isError) {
-      console.log(message);
-    }
-    if (isSuccess || user) {
-      //   navigate("/");
-    }
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
-
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
 
       [e.target.id]: e.target.value,
     }));
-    console.log(tags);
+    console.log(tagsTable);
   };
-  ////////////////////////////////////////////////////////////////////////////
 
   const KeyCodes = {
     comma: 188,
@@ -53,23 +43,20 @@ function CreateItem() {
   };
 
   const delimiters = [KeyCodes.comma, KeyCodes.enter];
-  const [tags, setTags] = React.useState([]);
+  const [tagsTable, setTags] = React.useState([]);
 
   const handleDelete = (i) => {
-    setTags(tags.filter((tag, index) => index !== i));
+    setTags(tagsTable.filter((tag, index) => index !== i));
   };
 
   const handleAddition = (tag) => {
-    setTags([...tags, tag]);
+    setTags([...tagsTable, tag]);
   };
 
   const handleDrag = (tag, currPos, newPos) => {
-    const newTags = tags.slice();
-
+    const newTags = tagsTable.slice();
     newTags.splice(currPos, 1);
     newTags.splice(newPos, 0, tag);
-
-    // re-render
     setTags(newTags);
   };
 
@@ -83,7 +70,7 @@ function CreateItem() {
     const d = {
       collectionID: collectionID,
       name: name,
-      tags: tags,
+      tags: tagsTable,
       userID: user._id,
       actionToDo: "add",
     };
@@ -92,7 +79,18 @@ function CreateItem() {
     dispatch(createItem(d));
     navigate(`/userCollection/${collectionID}?backUrl=${collectionID}`);
   };
-
+  useEffect(() => {
+    dispatch(getAllTags());
+  }, []);
+  const { tags } = useSelector((state) => state.items);
+  console.log(tags);
+  // console.log(tags.map(name => ({ name })))
+  const suggestions = tags.map(country => {
+    return {
+      id: country,
+      text: country
+    };
+  });
   return (
     <div class="container">
       {command === "create" ? <>CREATE ITEM</> : <>EDIT ITEM: {collectionID}</>}
@@ -120,16 +118,16 @@ function CreateItem() {
                 />
               </div>
               <div>
-                <ReactTags
-                  tags={tags}
+                <ReactTags sx={{color:"black"}}
+                  tags={tagsTable}
                   delimiters={delimiters}
                   handleDelete={handleDelete}
                   handleAddition={handleAddition}
                   handleDrag={handleDrag}
                   handleTagClick={handleTagClick}
                   inputFieldPosition="bottom"
-                  // suggestions={suggestions}
-                  autocomplete
+                  suggestions={suggestions}
+                  
                 />
               </div>
               <div class="text-center">

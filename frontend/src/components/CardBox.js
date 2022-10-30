@@ -1,24 +1,19 @@
-import React from "react";
-import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { logout, resetUser } from "../features/auth/authSlice";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.css";
 import block from "../images/block.svg";
-// import Button from "react-bootstrap/Button";
 import Button from "@mui/material/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import ListGroup from "react-bootstrap/ListGroup";
-import { browserHistory } from "react-router";
-import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import { deleteCollection } from "../features/collections/collectionsSlice";
 import Title from "react-vanilla-tilt";
-function CardBox({ id }) {
+import DehazeIcon from "@mui/icons-material/Dehaze";
+import Menu from "@mui/material/Menu";
+
+function CardBox() {
   const { user } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [currentUrl, setCurrentUrl] = useState(window.location.href);
   const [userID2, setUserID2] = useState();
@@ -33,9 +28,6 @@ function CardBox({ id }) {
     setHasRole(false);
     setRole("");
     setUserID2("");
-    // currentUrl === "http://localhost:3000/"
-    //   ? dispatch(getTopFiveCollections())
-    //   : console.log("not http://localhost:3000/");
     user ? setUserID2(user._id) : console.log("no user");
     if (user) {
       if (user.hasOwnProperty("role")) {
@@ -46,120 +38,171 @@ function CardBox({ id }) {
       setHasRole(false);
       setRole("");
     }
-    // ? user.hasOwnProperty("role")
-    //   ? setHasRole(true)
-    //   : console.log("no role error")
-    // : console.log("no user");
-    // user
-    // ? user.hasOwnProperty("role")
-    //   ? setRole(user.role)
-    //   : console.log("no role error")
-    // : console.log("no user");
     console.log("user: ", user, "hasRole: ", hasRole, "role: ", role);
   }, [user]);
-  // useEffect(() => {
-  //   console.log("useEffect CARDBOX");
-  //   currentUrl === "http://localhost:3000/"
-  //     ? dispatch(getTopFiveCollections())
-  //     : console.log(
-  //         "notssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss http://localhost:3000/"
-  //       );
-  // }, []);
 
   const { collections, topFiveItemNum, isLoading, isError, message } =
     useSelector((state) => state.collections);
   console.log(topFiveItemNum);
   console.log(user);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [colToGo, setColToGo] = useState();
+  const [userToGo, setUserToGo] = useState();
+
+  const open = Boolean(anchorEl);
+  const handleClick = (event, c, u) => {
+    setAnchorEl(event.currentTarget);
+    setColToGo(c);
+    setUserToGo(u);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+    setColToGo("");
+    setUserToGo("");
+  };
   return (
     <>
-      {collections.map(({ user }, key) => (
-        <Grid Item>
-          <Col align="center">
-            <Title>
-              <Card key={key}>
-                <img src={block} class="w-50 p-3 rounded mx-auto d-block" />
-                <Card.Body>
-                  <Card.Title>{collections[key].name}</Card.Title>
-                  <Card.Text>{collections[key].description}</Card.Text>
-                  <ListGroup className="list-group-flush">
-                    <ListGroup.Item>
-                      <strong>Topic: </strong>
-                      {collections[key].topic}
-                      {currentUrl === "http://localhost:3000/" ? (
-                        topFiveItemNum.length ? (
-                          <p>Items: {topFiveItemNum[key].length}</p>
+      <Grid
+        container
+        textAlign="center"
+        justifyContent="center"
+        sx={{ mt: 5, mb: 5 }}
+      >
+        {collections.map(({ user }, key) => (
+          <Grid Item>
+            <Col>
+              <Title
+                style={{
+                  maxWidth: "200px",
+                  marginLeft: "3%",
+                  marginRight: "3%",
+                  marginTop: "3%",
+                }}
+              >
+                <Grid item>
+                  <Card
+                    style={{
+                      borderImage:
+                        "linear-gradient( to left ,#845EC2,#00C9A7)30",
+                      borderWidth: "4px",
+                      borderStyle: "solid",
+                    }}
+                  >
+                    <img src={block} class="w-50 p-3 rounded mx-auto d-block" />
+                    <Card.Body>
+                      <Card.Title>{collections[key].name}</Card.Title>
+                      <Card.Text>{collections[key].description}</Card.Text>
+
+                      <Card.Text>
+                        <strong>Topic: </strong>
+                        {collections[key].topic}
+                        {/* {currentUrl === "http://localhost:3000/" ? ( */}
+                        {currentUrl ===
+                        "https://socialappmateusz.herokuapp.com/Main" ? (
+                          topFiveItemNum.length ? (
+                            <p>Items: {topFiveItemNum[key].length}</p>
+                          ) : (
+                            <></>
+                          )
                         ) : (
                           <></>
-                        )
-                      ) : (
-                        <></>
-                      )}
-                    </ListGroup.Item>
-                  </ListGroup>
-                  <Grid container columns={2} justifyContent="center">
-                    {userID2 ? (
-                      userID2 === collections[key].userID ||
-                      (hasRole && role === "admin") ? (
-                        <>
-                          <Button
-                            value={collections[key].userID}
-                            size="sm"
-                            onClick={() => deleteCol(collections[key]._id)}
-                          >
-                            DELETE
-                          </Button>
-                          <Link
-                            to={`/Collection?backUrl=${
-                              "edit " + collections[key]._id
-                            }`}
-                          >
-                            <Button value={collections[key]._id} size="sm">
-                              Edit collection
-                            </Button>{" "}
-                          </Link>
-                        </>
-                      ) : (
-                        <></>
-                      )
-                    ) : (
-                      <></>
-                    )}
-                    <Link
-                      to={`/UserCollection/${collections[key]._id}?backUrl=${
-                        collections[key]._id + " " + collections[key].userID
-                      }`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Button
-                        value={collections[key]._id}
-                        size="sm"
-                        variant="outlined"
-                        active
+                        )}
+                      </Card.Text>
+
+                      <DehazeIcon
+                        key={collections[key]._id}
+                        onClick={(e) =>
+                          handleClick(
+                            e,
+                            collections[key]._id,
+                            collections[key].userID
+                          )
+                        }
+                      />
+                      <Menu
+                        key={key}
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
                       >
-                        Go to collection
-                      </Button>{" "}
-                    </Link>
-                    <Link
-                      to={`/UserProfile/${collections[key].userID}?backUrl=${collections[key].userID}`}
-                      style={{ textDecoration: "none", color: "black" }}
-                    >
-                      <Button
-                        variant="outlined"
-                        value={collections[key].userID}
-                        size="sm"
-                        active
-                      >
-                        Go to user
-                      </Button>
-                    </Link>
-                  </Grid>
-                </Card.Body>
-              </Card>
-            </Title>
-          </Col>
-        </Grid>
-      ))}
+                        <Grid
+                          container
+                          textAlign="center"
+                          justifyContent="center"
+                          columns={1}
+                          sx={{ maxWidth: 130, width: "auto" }}
+                        >
+                          {userID2 ? (
+                            userID2 === userToGo ||
+                            (hasRole && role === "admin") ? (
+                              <>
+                                <Grid Item>
+                                  <Button
+                                    value={collections[key].userID}
+                                    size="sm"
+                                    onClick={() => deleteCol(colToGo)}
+                                  >
+                                    DELETE
+                                  </Button>
+                                </Grid>
+                                <Grid Item>
+                                  <Link
+                                    to={`/Collection?backUrl=${
+                                      "edit " + colToGo
+                                    }`}
+                                    style={{
+                                      textDecoration: "none",
+                                      color: "black",
+                                    }}
+                                  >
+                                    <Button
+                                      value={collections[key]._id}
+                                      size="sm"
+                                    >
+                                      Edit collection
+                                    </Button>
+                                  </Link>
+                                </Grid>
+                              </>
+                            ) : (
+                              <></>
+                            )
+                          ) : (
+                            <></>
+                          )}
+                          <Grid Item xs={12}>
+                            <Link
+                              to={`/UserCollection/${colToGo}?backUrl=${
+                                colToGo + " " + userToGo
+                              }`}
+                              style={{ textDecoration: "none" }}
+                            >
+                              <Button value={collections[key]._id} size="sm">
+                                Go to collection
+                              </Button>{" "}
+                            </Link>
+                          </Grid>
+                          <Grid Item xs={12}>
+                            <Link
+                              to={`/UserProfile/${userToGo}?backUrl=${userToGo}`}
+                              style={{ textDecoration: "none", color: "black" }}
+                            >
+                              <Button value={userToGo} size="sm">
+                                Go to user
+                              </Button>
+                            </Link>
+                          </Grid>
+                        </Grid>
+                      </Menu>
+                    </Card.Body>
+                  </Card>
+                </Grid>
+              </Title>
+            </Col>
+          </Grid>
+        ))}
+      </Grid>
     </>
   );
 }

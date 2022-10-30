@@ -1,19 +1,11 @@
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { getItems, reset } from "../features/items/itemsSlice";
 import { logout, resetUser } from "../features/auth/authSlice";
-import Header from "../components/header";
 import Button from "@mui/material/Button";
-import { useLocation, testvalue } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Alert from "@mui/material/Alert";
-import Collapse from "@mui/material/Collapse";
 import ItemsBox from "../components/ItemsBox";
-import { IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { Link } from "react-router-dom";
+import Grid from "@mui/material/Grid";
 
 function UserCollection() {
   const [open, setOpen] = useState(false);
@@ -81,7 +73,7 @@ function UserCollection() {
   return (
     <>
       {/* <Header /> */}
-      <Box sx={{ width: "100%" }}>
+      {/* <Box sx={{ width: "100%" }}>
         <Collapse in={open}>
           <Alert
             severity="error"
@@ -102,16 +94,8 @@ function UserCollection() {
             ERROR, you are not the owner
           </Alert>
         </Collapse>
-        {/* <Button
-            disabled={open}
-            variant="outlined"
-            onClick={() => {
-              setOpen(true);
-            }}
-          >
-            Re-open
-          </Button> */}
-      </Box>
+
+      </Box> */}
       user collection
       <div>
         <h1>Welcome {user && user.name}</h1>
@@ -121,8 +105,26 @@ function UserCollection() {
         {user ? (
           (hasRole && role === "admin") || userID === user._id ? (
             <>
-              <Link to={`/Item/?backUrl=${"create " + collectionID}`}>
-                <Button size="small">create new item</Button>
+              <Link
+                to={`/Item/?backUrl=${"create " + collectionID}`}
+                style={{ textDecoration: "none" }}
+              >
+                <Button
+                  size="small"
+                  sx={{
+                    width: "170px",
+                    borderRadius: "20px",
+                    background:
+                      "linear-gradient(to left,rgba(230, 203, 87,0.5),transparent)",
+                    backgroundColor: "#44e2ce",
+                    color: "white",
+                    boxShadow:
+                      "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                    textDecoration: "none",
+                  }}
+                >
+                  create new item
+                </Button>
               </Link>
             </>
           ) : (
@@ -131,7 +133,13 @@ function UserCollection() {
         ) : (
           <></>
         )}
-        <ItemsBox items={items} />
+        <Grid
+          container
+          columns={{ xs: 2, sm: 8, md: 18, lg: 30 }}
+          justifyContent="center"
+        >
+          <ItemsBox items={items} />
+        </Grid>
       </div>
     </>
   );

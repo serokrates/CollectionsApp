@@ -1,5 +1,5 @@
 import axios from "axios";
-import authService from "../auth/authService";
+
 const API_URL = "/api/item";
 
 const getItems = async (collectionID) => {

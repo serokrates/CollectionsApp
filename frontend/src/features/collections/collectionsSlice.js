@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import collectionsService from "./collectionsService";
 
 const user = JSON.parse(localStorage.getItem("user"));

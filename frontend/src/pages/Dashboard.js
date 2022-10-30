@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getUsers, reset } from "../features/users/usersSlice";
 import UserComponent from "../components/UserComponent";
 import { logout, resetUser } from "../features/auth/authSlice";
-import Header from "../components/header";
+
 function Dashboard() {
   function refreshPage() {
     window.location.reload(false);
   }
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onLogout = () => {

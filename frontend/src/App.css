@@ -25,18 +25,35 @@
 .App-link {
   color: rgb(112, 76, 182);
 }
+
 .container-main {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+
+  margin-left: 10%;
+  margin-right: 10%;
 }
+
 .content-wrap {
   flex: 1;
 }
+
 #root {
-  background: linear-gradient(rgba(250, 0, 0, 0.5), transparent);
-  background-color: purple;
+  /* background: rgb(2,0,36); */
+  background: linear-gradient(
+    to left bottom,
+    #845ec2,
+    #2c73d2,
+    #0081cf,
+    #0089ba,
+    #008e9b,
+    #008f7a
+  );
+  /* background: linear-gradient(rgba(250, 0, 0, 0.5), transparent);
+    background-color: purple; */
 }
+
 @keyframes App-logo-float {
   0% {
     transform: translateY(0);

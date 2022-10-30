@@ -1,24 +1,10 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { getItems, reset } from "../features/items/itemsSlice";
-import UserComponent from "../components/UserComponent";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { findUsingTags, reset } from "../features/items/itemsSlice";
 import { logout, resetUser } from "../features/auth/authSlice";
-import Header from "../components/header";
-import { findUsingTags } from "../features/items/itemsSlice";
-import Button from "@mui/material/Button";
-import Card from "react-bootstrap/Card";
-import CardBox from "../components/CardBox";
-import { useLocation, testvalue } from "react-router-dom";
 
 import ItemsBox from "../components/ItemsBox";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import { IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import MessageForm from "../components/MessageForm";
-import { Link } from "react-router-dom";
 
 function TagCollection() {
   const { query, search } = useLocation();
