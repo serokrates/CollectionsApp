@@ -7,13 +7,8 @@ import { logout, resetUser } from "../features/auth/authSlice";
 import ItemsBox from "../components/ItemsBox";
 
 function SearchCollection() {
-  const location = useLocation();
-  // console.log("route.params.user:  ", location.state.name);
-  // const [stringName, setStringName] = useState("")
   const { query, search } = useLocation();
-  const tag = new URLSearchParams(search).get("backUrl");
   console.log(new URLSearchParams(search).get("backUrl"));
-  const backUrl = new URLSearchParams(search).get("backUrl");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onLogout = () => {
@@ -26,25 +21,10 @@ function SearchCollection() {
     (state) => state.items
   );
   console.log(itemsSearched);
-  // useEffect(() => {
-  //   location.state.name
-  //     ? dispatch(findForString(location.state.name))
-  //     : console.log("no location.state.name");
-  // }, []);
   useEffect(() => {
-    // location.state.name
-    //   ? dispatch(findForString(location.state.name))
-    //   : console.log("no location.state.name");
     if (isError) {
-      //   console.log(message);
       onLogout();
-      navigate("/login");
-    }
-    if (!user) {
-      //   navigate("/login");
-    }
-    if (user) {
-      //   dispatch(getCollections());
+      navigate("/Main");
     }
     return () => {
       dispatch(reset());
@@ -53,8 +33,6 @@ function SearchCollection() {
 
   return (
     <>
-      {/* <Header /> */}
-      TagCollection
       <div class="text-center">
         <ItemsBox items={itemsSearched} />
       </div>

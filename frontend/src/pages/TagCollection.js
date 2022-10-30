@@ -29,16 +29,10 @@ function TagCollection() {
   useEffect(() => {
     dispatch(findUsingTags(tag));
     if (isError) {
-      //   console.log(message);
       onLogout();
       navigate("/login");
     }
-    if (!user) {
-      //   navigate("/login");
-    }
-    if (user) {
-      //   dispatch(getCollections());
-    }
+
     return () => {
       dispatch(reset());
     };
@@ -46,8 +40,6 @@ function TagCollection() {
 
   return (
     <>
-      {/* <Header /> */}
-      TagCollection
       <div class="text-center">
         <ItemsBox items={items} />
       </div>

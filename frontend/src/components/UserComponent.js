@@ -5,6 +5,8 @@ import unblock from "../images/unblock.svg";
 import { changeStatus, deleteUser } from "../features/users/usersSlice";
 import { logout, resetUser } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 
 function UserComponent({ user, index }) {
   const navigate = useNavigate();
@@ -22,7 +24,6 @@ function UserComponent({ user, index }) {
   };
   const blockAndLogout = (id) => {
     dispatch(changeStatus([id, "blocked", userCurrent._id]));
-
     if (userCurrent._id === id) {
       dispatch(logout());
       dispatch(resetUser());
@@ -32,13 +33,21 @@ function UserComponent({ user, index }) {
   const activateUser = (id) => {
     dispatch(changeStatus([id, "active", userCurrent._id]));
   };
+  const grantAdmin = (id) => {
+    dispatch(changeStatus([id, "admin", userCurrent._id]));
+  };
+  const revokeAdmin = (id) => {
+    dispatch(changeStatus([id, "common", userCurrent._id]));
+    if (userCurrent._id === id) {
+      dispatch(logout());
+      dispatch(resetUser());
+      navigate("/login");
+    }
+  };
   return (
-    <tbody>
+    <tbody style={{textAlign:"center"}}>
       <tr>
         <th scope="row">{index}</th>
-        <td>
-          <input type="checkbox" value="" id="flexCheckDefault" />
-        </td>
         <td>{user.createdAt}</td>
         <td>{user.email}</td>
         <td>{user.status}</td>
@@ -55,20 +64,16 @@ function UserComponent({ user, index }) {
           </button>
         </td>
         <td>
-          <img
-            src={unblock}
-            style={{ width: "40px", minWidth: "40px" }}
-            class="img-thumbnail"
-            onClick={() => activateUser(user._id)}
-          />
+          <AutoFixHighIcon onClick={() => activateUser(user._id)}/>
         </td>
         <td>
-          <img
-            src={block}
-            style={{ width: "40px", minWidth: "40px" }}
-            class="img-thumbnail"
-            onClick={() => blockAndLogout(user._id)}
-          />
+          <DoNotDisturbOnIcon onClick={() => blockAndLogout(user._id)}/>
+        </td>
+        <td>
+          <AutoFixHighIcon onClick={() => grantAdmin(user._id)}/>
+        </td>
+        <td>
+          <DoNotDisturbOnIcon onClick={() => revokeAdmin(user._id)}/>
         </td>
       </tr>
     </tbody>

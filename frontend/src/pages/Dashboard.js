@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { getUsers, reset } from "../features/users/usersSlice";
 import UserComponent from "../components/UserComponent";
 import { logout, resetUser } from "../features/auth/authSlice";
-
+import Header from "../components/header";
 function Dashboard() {
   function refreshPage() {
     window.location.reload(false);
   }
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onLogout = () => {
@@ -30,13 +30,13 @@ function Dashboard() {
     if (isError) {
       console.log(message);
       onLogout();
-      navigate("/login");
+      // navigate("/login");
     }
     if (!user) {
-      navigate("/login");
+      // navigate("/login");
     }
     console.log("USER ROLE: ", user.status, user.role);
-    if (user.role !== "admin") {
+    if (!user.role && user.role !== "admin") {
       navigate("/");
     }
     if (user) {
@@ -48,17 +48,16 @@ function Dashboard() {
   }, [user, navigate, isError, dispatch]);
   return (
     <>
-      {/* <Header /> */}
+
       <div>
         <h1>Welcome {user && user.name}</h1>
       </div>
       <div>
         <div class="form-check">
-          <table class="table">
+          <table class="table" >
             <thead>
-              <tr>
+              <tr style={{textAlign:"center"}}>
                 <th scope="col">#</th>
-                <th scope="col">check</th>
                 <th scope="col">createdAt</th>
                 <th scope="col">email</th>
                 <th scope="col">status</th>
@@ -68,6 +67,8 @@ function Dashboard() {
                 <th scope="col">delete User</th>
                 <th scope="col">unblock</th>
                 <th scope="col">block</th>
+                <th scope="col">grant admin</th>
+                <th scope="col">revoke admin</th>
               </tr>
             </thead>
             {users.length !== 0 ? (

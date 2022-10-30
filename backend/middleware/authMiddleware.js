@@ -60,12 +60,13 @@ const ifBlocked = asyncHandler(async (req, res, next) => {
   }
 });
 const ifAdmin = asyncHandler(async (req, res, next) => {
-  if (req.headers.authorization && req.body.role) {
+  console.log("req.body: ",req.body)
+  if (req.headers.authorization ) {
     token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id).select("-password");
-
-    if (user && req.body.role && user.role === "admin") {
+    console.log(user)
+    if (user && user.role === "admin") {
       console.log("User have admin role");
       next();
     } else {
@@ -76,7 +77,7 @@ const ifAdmin = asyncHandler(async (req, res, next) => {
     const { email, name } = req.body;
     const user = await User.findOne({ email: email });
 
-    if (user && req.body.role && user.role === "admin") {
+    if (user && user.role === "admin") {
       console.log("User have admin role");
       next();
     } else {

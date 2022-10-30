@@ -45,7 +45,7 @@ function Register() {
         email,
         password,
         status: "active",
-        role: "admin",
+        role: "common",
       };
 
       dispatch(register(userData));

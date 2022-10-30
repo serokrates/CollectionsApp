@@ -9,7 +9,7 @@ const {
   deleteUser,
 } = require("../controlers/userControler");
 
-const { protect, ifBlocked, ifAdmin } = require("../middleware/authMiddleware");
+const { protect, ifBlocked, ifAdmin,ifOwner } = require("../middleware/authMiddleware");
 
 // router.route("/").get(ifBlocked2, getAllRegisteredUsers).post(registerUser);
 router.route("/").get(getAllRegisteredUsers).post(registerUser);
@@ -17,7 +17,7 @@ router.post("/login", loginUser);
 router.route("/me").get(protect, ifBlocked, getMe);
 router
   .route("/me/:id")
-  .put(protect, ifAdmin, blockUser)
-  .delete(protect, ifAdmin, deleteUser);
+  .put(ifAdmin, blockUser)
+  .delete(ifAdmin,deleteUser);
 
 module.exports = router;

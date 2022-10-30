@@ -31,15 +31,25 @@ const deleteUser = async (userID, token) => {
 const changeStatus = async (dataPut, token) => {
   const userID = dataPut[0];
   const statuss = dataPut[1];
+  console.log(statuss)
+  let data=''
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const data = {
-    status: statuss,
-    currentUserID: dataPut[2],
-  };
+  if(statuss==="admin" || statuss==="common"){
+     data = {
+      role: statuss,
+      currentUserID: dataPut[2],
+    };
+  }else if(statuss==="active" || statuss==="blocked"){
+     data = {
+      status: statuss,
+      currentUserID: dataPut[2],
+    };
+  }
+  console.log(data)
   const response = await axios.put(API_URL + "me/" + userID, data, config);
   return response.data;
 };
