@@ -51,14 +51,6 @@ function UserCollection() {
 
   return (
     <>
-      user collection
-      <div>
-        <h1>
-          <FormattedMessage id={"app.carduserCollection.welcome"}>
-          </FormattedMessage>
-          {user && user.name}
-        </h1>
-      </div>
       <div class="text-center">
         {user ? (
           (hasRole && role === "admin") || userID === user._id ? (

@@ -9,7 +9,7 @@ import CardBox from "../components/CardBox";
 import Button from "@mui/material/Button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
-
+import { Box } from "@mui/system";
 function UserProfile() {
   const { search } = useLocation();
   const userID = new URLSearchParams(search).get("backUrl");
@@ -53,7 +53,7 @@ function UserProfile() {
     };
   }, [user, navigate, isError, dispatch]);
   return (
-    <div class="text-center">
+    <Box sx={{mt:10}} textAlign={"center"}>
     {user ? (
       (hasRole && role === "admin") || userID === user._id ? (
         <>
@@ -88,7 +88,7 @@ function UserProfile() {
     )}
         
       <CardBox/>
-    </div>
+    </Box>
   );
 }
 

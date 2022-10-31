@@ -32,13 +32,15 @@ function PrivateProfile() {
     };
   }, [user, navigate, isError, dispatch]);
   return (
-    <Box sx={{ mt: 4 }} textAlign="center">
-      <h1>
-        <FormattedMessage id={"app.carduserCollection.welcome"}>
-        </FormattedMessage> 
-        {user && user.name}
-      </h1>
-      <Box sx={{ mt: 8 }}>
+    <>
+      <Box sx={{ mt: 2}} textAlign="center">
+        <h1>
+          <FormattedMessage id={"app.carduserCollection.welcome"}>
+          </FormattedMessage> 
+          {user && user.name}
+        </h1>
+      </Box>
+      <Box sx={{ mt: 2 }} textAlign="center">
         <Link
           to={`/Collection?backUrl=${"create"}`}
           style={{ textDecoration: "none" }}
@@ -69,7 +71,7 @@ function PrivateProfile() {
           <CardBox />
         </Grid>
       </Box>
-    </Box>
+    </>
   );
 }
 
