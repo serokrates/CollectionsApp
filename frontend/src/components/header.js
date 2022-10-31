@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, resetUser } from "../features/auth/authSlice";
 import "bootstrap/dist/css/bootstrap.css";
-// import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
@@ -23,9 +22,7 @@ function Header() {
   const [currentUrl, setCurrentUrl] = useState(window.location.href);
   const [nameData, setNameData] = useState("");
   const onChange = (e) => {
-    console.log(nameData);
     setNameData(e.target.value);
-    console.log(nameData);
   };
   const onLogout = () => {
     dispatch(logout());
@@ -34,7 +31,6 @@ function Header() {
   };
   const search = (e) => {
     e.preventDefault();
-    console.log(nameData);
 
     dispatch(findForString(nameData));
     navigate("/SearchCollection");

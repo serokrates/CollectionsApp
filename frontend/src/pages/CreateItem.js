@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { createItem } from "../features/items/itemsSlice";
 import { getAllTags } from "../features/items/itemsSlice";
 import { WithContext as ReactTags } from "react-tag-input";
-
+import { FormattedMessage } from "react-intl";
 function CreateItem() {
 
   const [formData, setFormData] = useState({
@@ -18,13 +18,11 @@ function CreateItem() {
   const [command, setCommand] = useState(backUrl.split(" ")[0]);
   const [collectionID, setCollectionId] = useState(backUrl.split(" ")[1]);
 
-  console.log(command, collectionID);
-
   const { name } = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isError, isSuccess, message } = useSelector(
+  const { user} = useSelector(
     (state) => state.auth
   );
 
@@ -34,7 +32,6 @@ function CreateItem() {
 
       [e.target.id]: e.target.value,
     }));
-    console.log(tagsTable);
   };
 
   const KeyCodes = {
@@ -60,10 +57,6 @@ function CreateItem() {
     setTags(newTags);
   };
 
-  const handleTagClick = (index) => {
-    console.log("The tag at index " + index + " was clicked");
-  };
-  //////////////////////////////////////////////////////////////////////////
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -74,7 +67,6 @@ function CreateItem() {
       userID: user._id,
       actionToDo: "add",
     };
-    console.log(d);
 
     dispatch(createItem(d));
     navigate(`/userCollection/${collectionID}?backUrl=${collectionID}`);
@@ -83,8 +75,6 @@ function CreateItem() {
     dispatch(getAllTags());
   }, []);
   const { tags } = useSelector((state) => state.items);
-  console.log(tags);
-  // console.log(tags.map(name => ({ name })))
   const suggestions = tags.map(country => {
     return {
       id: country,
@@ -93,7 +83,7 @@ function CreateItem() {
   });
   return (
     <div class="container">
-      {command === "create" ? <>CREATE ITEM</> : <>EDIT ITEM: {collectionID}</>}
+      {command === "create" ? <><FormattedMessage id={"app.dashboard.createItem"}></FormattedMessage></> : <></>}
       <div class="row">
         <div class="col-md-6 offset-md-3">
           <div class="card my-5">
@@ -124,7 +114,6 @@ function CreateItem() {
                   handleDelete={handleDelete}
                   handleAddition={handleAddition}
                   handleDrag={handleDrag}
-                  handleTagClick={handleTagClick}
                   inputFieldPosition="bottom"
                   suggestions={suggestions}
                   
@@ -132,7 +121,7 @@ function CreateItem() {
               </div>
               <div class="text-center">
                 <button type="submit" class="btn btn-color px-5 mb-5 w-100">
-                  {command === "create" ? <>CREATE ITEM</> : <> EDIT ITEM</>}
+                  {command === "create"?<><FormattedMessage id={"app.dashboard.createItem"}></FormattedMessage></>:<></>}
                 </button>
               </div>
             </form>

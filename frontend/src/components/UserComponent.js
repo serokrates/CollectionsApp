@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import block from "../images/block.svg";
-import unblock from "../images/unblock.svg";
 import { changeStatus, deleteUser } from "../features/users/usersSlice";
 import { logout, resetUser } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +8,6 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 
 function UserComponent({ user, index }) {
   const navigate = useNavigate();
-  const [stateCustomer, setCustomerState] = useState([]);
   const dispatch = useDispatch();
   const userCurrent = useSelector((state) => state.auth).user;
 

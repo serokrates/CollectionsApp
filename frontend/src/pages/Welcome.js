@@ -9,7 +9,6 @@ function Welcome() {
 
   return ( 
     <Grid container sx={{color:"white"}}>
-        {/* sx={{ display: { xs: 'none', sm: 'block' }}} */}
         <Grid item md={6} sm={12} sx={{mt:{sm:25,xs:15}}}>
             <Box>
                 <h2><FormattedMessage id={"app.welcome-page.header"}></FormattedMessage></h2>

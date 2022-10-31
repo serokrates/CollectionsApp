@@ -4,7 +4,6 @@ const {
   createItem,
   updateCollection,
   deleteItem,
-  editItem,
   getItems,
   getItem,
   getAllTags,
@@ -14,8 +13,6 @@ const {
 const {} = require("../controlers/commentControler");
 const {
   protect,
-  ifBlocked,
-  ifBlocked2,
   ifOwner,
 } = require("../middleware/authMiddleware");
 

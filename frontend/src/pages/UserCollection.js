@@ -20,13 +20,10 @@ function UserCollection() {
   const { items,isError} = useSelector(
     (state) => state.items
   );
-  console.log(new URLSearchParams(search).get("backUrl"));
 
   const [userID, setUserID] = useState(backUrl.split(" ")[1]);
   const [collectionID, setCollectionId] = useState(backUrl.split(" ")[0]);
 
-  const { collections } = useSelector((state) => state.collections);
-  console.log(collections);
   useEffect(() => {
     dispatch(getItems(collectionID));
   }, []);

@@ -29,7 +29,6 @@ import { getLanguage } from "./features/language/languageSlice";
 function App() {
   const dispatch = useDispatch();
   const { language } = useSelector((state) => state.language);
-  console.log("language from the state:",language)
   const messages = {
     [locales.EN]: enMessages,
     [locales.PL]: plMessages

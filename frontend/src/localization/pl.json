@@ -38,6 +38,9 @@
     "app.dashboard.unblock": "odblokuj",
     "app.dashboard.block": "zablokuj",
     "app.dashboard.grantAdmin": "przyznaj admina",
-    "app.dashboard.revokeAdmin": "unieważnij admina"
-
+    "app.dashboard.revokeAdmin": "unieważnij admina",
+    "app.dashboard.createItem": "UTWÓRZ ITEM",
+    "app.dashboard.editItem": "EDYTUJ ITEM",
+    "app.dashboard.createCollection": "UTWÓRZ KOLEKCJĘ",
+    "app.dashboard.editCollection": "EDYTUJ KOLEKCJĘ "
 }

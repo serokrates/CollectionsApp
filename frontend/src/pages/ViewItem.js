@@ -11,7 +11,6 @@ import { FormattedMessage } from "react-intl";
 function ViewItem() {
   const { search } = useLocation();
   const itemID = new URLSearchParams(search).get("backUrl");
-  console.log(new URLSearchParams(search).get("backUrl"));
   const dispatch = useDispatch();
   const { item} = useSelector(
     (state) => state.items
@@ -60,7 +59,7 @@ function ViewItem() {
             In elit metus, efficitur lobortis nisi quis, molestie porttitor
             metus. Pellentesque et neque risus. Aliquam vulputate, mauris
             vitae tincidunt interdum, mauris mi vehicula urna, nec feugiat
-            quam lectus vitae ex.{" "}
+            quam lectus vitae ex.
           </p>
 
           <p style={{ textAlign: "left" }}>

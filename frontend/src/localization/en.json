@@ -38,5 +38,9 @@
     "app.dashboard.unblock": "unblock",
     "app.dashboard.block": "block",
     "app.dashboard.grantAdmin": "grant admin",
-    "app.dashboard.revokeAdmin": "revoke admin"
+    "app.dashboard.revokeAdmin": "revoke admin",
+    "app.dashboard.createItem": "CREATE ITEM",
+    "app.dashboard.editItem": "EDIT ITEM",
+    "app.dashboard.createCollection": "CREATE COLLECTION",
+    "app.dashboard.editCollection": "EDIT COLLECTION "
 }

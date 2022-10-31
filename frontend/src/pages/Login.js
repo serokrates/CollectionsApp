@@ -19,10 +19,8 @@ function Login() {
   });
 
   const { name, email, password } = formData;
-  console.log(user, isLoading, isError, isSuccess, message);
   useEffect(() => {
     if (isError) {
-      console.log(message);
     }
     if (isSuccess || user) {
       navigate("/");

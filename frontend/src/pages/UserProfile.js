@@ -13,7 +13,6 @@ import { Box } from "@mui/system";
 function UserProfile() {
   const { search } = useLocation();
   const userID = new URLSearchParams(search).get("backUrl");
-  console.log(new URLSearchParams(search).get("backUrl"));
 
   const [hasRole, setHasRole] = useState(false);
   const [role, setRole] = useState("");

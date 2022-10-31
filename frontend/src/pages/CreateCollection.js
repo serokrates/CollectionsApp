@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   createCollection,
   editCollection,
 } from "../features/collections/collectionsSlice";
+import { FormattedMessage } from "react-intl";
 
 function CreateCollection() {
   const [formData, setFormData] = useState({
@@ -19,15 +20,9 @@ function CreateCollection() {
   const [collectionID, setCollectionId] = useState(backUrl.split(" ")[1]);
   const [userID, setUserId] =  useState(backUrl.split(" ")[2]);
 
-  console.log(command,collectionID,userID);
-
   const { name, description, topic } = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { user, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -60,7 +55,6 @@ function CreateCollection() {
       ];
     }
 
-    console.log(d);
     {
       command === "create"
         ? dispatch(createCollection(d))
@@ -73,9 +67,9 @@ function CreateCollection() {
   return (
     <div class="container">
       {command === "create" ? (
-        <>CREATE COLLECTION</>
+        <><FormattedMessage id={"app.dashboard.createCollection"}></FormattedMessage></>
       ) : (
-        <>EDIT COLLECTION: {collectionID}</>
+        <><FormattedMessage id={"app.dashboard.editCollection"}></FormattedMessage>{collectionID}</>
       )}
       <div class="row">
         <div class="col-md-6 offset-md-3">
@@ -126,9 +120,9 @@ function CreateCollection() {
               <div class="text-center">
                 <button type="submit" class="btn btn-color px-5 mb-5 w-100">
                   {command === "create" ? (
-                    <>CREATE COLLECTION</>
+                    <><FormattedMessage id={"app.dashboard.createCollection"}></FormattedMessage></>
                   ) : (
-                    <> EDIT COLLECTION</>
+                    <><FormattedMessage id={"app.dashboard.editCollection"}></FormattedMessage></>
                   )}
                 </button>
               </div>

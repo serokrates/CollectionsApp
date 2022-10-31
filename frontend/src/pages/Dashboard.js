@@ -22,14 +22,12 @@ function Dashboard() {
 
   useEffect(() => {
     if (isError) {
-      console.log(message);
       onLogout();
       navigate("/login");
     }
     if (!user) {
       navigate("/login");
     }
-    console.log("USER ROLE: ", user.status, user.role);
     if (!user.role && user.role !== "admin") {
       navigate("/");
     }

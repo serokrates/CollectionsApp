@@ -7,10 +7,8 @@ import { logout, resetUser } from "../features/auth/authSlice";
 import ItemsBox from "../components/ItemsBox";
 
 function TagCollection() {
-  const { query, search } = useLocation();
+  const { search } = useLocation();
   const tag = new URLSearchParams(search).get("backUrl");
-  console.log(new URLSearchParams(search).get("backUrl"));
-  const backUrl = new URLSearchParams(search).get("backUrl");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onLogout = () => {
@@ -18,11 +16,10 @@ function TagCollection() {
     dispatch(resetUser());
     navigate("/login");
   };
-  const { user } = useSelector((state) => state.auth);
-  const { items, isLoading, isError, message } = useSelector(
+  const {user} = useSelector((state) => state.auth);
+  const {items, isError} = useSelector(
     (state) => state.items
   );
-  console.log(items);
   useEffect(() => {
     dispatch(findUsingTags(tag));
   }, []);
@@ -32,7 +29,6 @@ function TagCollection() {
       onLogout();
       navigate("/login");
     }
-
     return () => {
       dispatch(reset());
     };

@@ -51,14 +51,12 @@ function MessageForm({ itemID }) {
   const [text, setText] = useState("");
 
   useEffect(() => {
-    console.log("RENDER [dispatch]");
     dispatch(getCommentsForID(itemID));
   }, [dispatch]);
 
   useEffect(() => {
     socket.on("receive_comment", (data) => {
       if (data.message === itemID) {
-        console.log("TAK TO JEST TEN ITEM: ", data);
         dispatch(getCommentsForID(data.message));
       }
     });

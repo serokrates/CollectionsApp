@@ -7,8 +7,6 @@ import { logout, resetUser } from "../features/auth/authSlice";
 import ItemsBox from "../components/ItemsBox";
 
 function SearchCollection() {
-  const { query, search } = useLocation();
-  console.log(new URLSearchParams(search).get("backUrl"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onLogout = () => {
@@ -17,10 +15,9 @@ function SearchCollection() {
     navigate("/login");
   };
   const { user } = useSelector((state) => state.auth);
-  const { itemsSearched, isLoading, isError, message } = useSelector(
+  const { itemsSearched, isError } = useSelector(
     (state) => state.items
   );
-  console.log(itemsSearched);
   useEffect(() => {
     if (isError) {
       onLogout();

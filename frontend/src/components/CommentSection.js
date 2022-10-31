@@ -2,7 +2,6 @@ import React from "react";
 import Box from "@mui/material/Box";
 import { Avatar, Divider, Grid, IconButton, Paper } from "@mui/material";
 import block from "../images/block.svg";
-import Button from "@mui/material/Button";
 import {
   createComment,
   getCommentsForID,
@@ -27,7 +26,6 @@ function CommentSection({ comments }) {
   };
   const deleteComment = async (e) => {
     if (!user) {
-      console.log("u cant delete this comment");
     } else if (user) {
       let d = {
         itemID: comments[0].itemID,
@@ -35,7 +33,6 @@ function CommentSection({ comments }) {
         commentID: e,
         actionToDo: "delete",
       };
-      console.log(d);
       await dispatch(createComment(d));
 
       await dispatch(getCommentsForID(comments[0].itemID));
