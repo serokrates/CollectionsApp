@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import CommentSection from "./CommentSection";
 import socketIO from "socket.io-client";
 import Button from "@mui/material/Button";
+import { FormattedMessage } from "react-intl";
 
 const port = process.env.PORT || 5000;
 // lokalnie
@@ -87,7 +88,8 @@ function MessageForm({ itemID }) {
                 textDecoration: "none",
               }}
             >
-              Add a comment
+              <FormattedMessage id={"app.messageForm.addComment"}>
+              </FormattedMessage>
             </Button>
           </form>
         </Box>
@@ -96,7 +98,7 @@ function MessageForm({ itemID }) {
             <CommentSection comments={comments} />
           </Box>
         ) : (
-          <>currently there are no comments to show</>
+          <><FormattedMessage id={"app.messageForm.noComments"}></FormattedMessage></>
         )}
       </Grid>
     </>

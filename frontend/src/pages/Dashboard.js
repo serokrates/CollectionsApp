@@ -5,11 +5,9 @@ import { useEffect } from "react";
 import { getUsers, reset } from "../features/users/usersSlice";
 import UserComponent from "../components/UserComponent";
 import { logout, resetUser } from "../features/auth/authSlice";
-import Header from "../components/header";
+import { FormattedMessage } from "react-intl";
 function Dashboard() {
-  function refreshPage() {
-    window.location.reload(false);
-  }
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onLogout = () => {
@@ -22,18 +20,14 @@ function Dashboard() {
     (state) => state.users
   );
 
-  console.log(users, isLoading, isError, message);
-  console.log(user);
   useEffect(() => {
-    console.log(users, isLoading, isError, message);
-    console.log("length: ", users.length);
     if (isError) {
       console.log(message);
       onLogout();
-      // navigate("/login");
+      navigate("/login");
     }
     if (!user) {
-      // navigate("/login");
+      navigate("/login");
     }
     console.log("USER ROLE: ", user.status, user.role);
     if (!user.role && user.role !== "admin") {
@@ -48,9 +42,12 @@ function Dashboard() {
   }, [user, navigate, isError, dispatch]);
   return (
     <>
-
       <div>
-        <h1>Welcome {user && user.name}</h1>
+        <h1>
+          <FormattedMessage id={"app.carduserCollection.welcome"}>
+          </FormattedMessage> 
+          {user && user.name}
+        </h1>
       </div>
       <div>
         <div class="form-check">
@@ -58,17 +55,17 @@ function Dashboard() {
             <thead>
               <tr style={{textAlign:"center"}}>
                 <th scope="col">#</th>
-                <th scope="col">createdAt</th>
+                <th scope="col"><FormattedMessage id={"app.dashboard.createdAt"}></FormattedMessage></th>
                 <th scope="col">email</th>
                 <th scope="col">status</th>
-                <th scope="col">role</th>
-                <th scope="col">updatedAt</th>
+                <th scope="col"><FormattedMessage id={"app.dashboard.role"}></FormattedMessage></th>
+                <th scope="col"><FormattedMessage id={"app.dashboard.updatedAt"}></FormattedMessage></th>
                 <th scope="col">_id</th>
-                <th scope="col">delete User</th>
-                <th scope="col">unblock</th>
-                <th scope="col">block</th>
-                <th scope="col">grant admin</th>
-                <th scope="col">revoke admin</th>
+                <th scope="col"><FormattedMessage id={"app.dashboard.deleteUser"}></FormattedMessage></th>
+                <th scope="col"><FormattedMessage id={"app.dashboard.unblock"}></FormattedMessage></th>
+                <th scope="col"><FormattedMessage id={"app.dashboard.block"}></FormattedMessage></th>
+                <th scope="col"><FormattedMessage id={"app.dashboard.grantAdmin"}></FormattedMessage></th>
+                <th scope="col"><FormattedMessage id={"app.dashboard.revokeAdmin"}></FormattedMessage></th>
               </tr>
             </thead>
             {users.length !== 0 ? (

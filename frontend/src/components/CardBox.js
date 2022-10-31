@@ -11,6 +11,7 @@ import { deleteCollection } from "../features/collections/collectionsSlice";
 import Title from "react-vanilla-tilt";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import Menu from "@mui/material/Menu";
+import { FormattedMessage } from "react-intl";
 
 function CardBox() {
   const { user } = useSelector((state) => state.auth);
@@ -20,8 +21,8 @@ function CardBox() {
   const [hasRole, setHasRole] = useState(false);
   const [role, setRole] = useState("");
   const deleteCol = (c) => {
-    console.log(c);
     dispatch(deleteCollection(c));
+    handleClose()
   };
 
   useEffect(() => {
@@ -38,13 +39,10 @@ function CardBox() {
       setHasRole(false);
       setRole("");
     }
-    console.log("user: ", user, "hasRole: ", hasRole, "role: ", role);
   }, [user]);
 
   const { collections, topFiveItemNum, isLoading, isError, message } =
     useSelector((state) => state.collections);
-  console.log(topFiveItemNum);
-  console.log(user);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [colToGo, setColToGo] = useState();
@@ -95,13 +93,20 @@ function CardBox() {
                       <Card.Text>{collections[key].description}</Card.Text>
 
                       <Card.Text>
-                        <strong>Topic: </strong>
+                        <strong>
+                          <FormattedMessage id={"app.cardBox.topic"}>
+                          </FormattedMessage>
+                        </strong>
                         {collections[key].topic}
                         {/* {currentUrl === "http://localhost:3000/" ? ( */}
                         {currentUrl ===
                         "https://socialappmateusz.herokuapp.com/Main" ? (
                           topFiveItemNum.length ? (
-                            <p>Items: {topFiveItemNum[key].length}</p>
+                            <p>
+                              <FormattedMessage id={"app.cardBox.items"}>
+                              </FormattedMessage>
+                              {topFiveItemNum[key].length}
+                            </p>
                           ) : (
                             <></>
                           )
@@ -143,13 +148,14 @@ function CardBox() {
                                     size="sm"
                                     onClick={() => deleteCol(colToGo)}
                                   >
-                                    DELETE
+                                    <FormattedMessage id={"app.cardBox.delete"}>
+                                    </FormattedMessage>
                                   </Button>
                                 </Grid>
                                 <Grid Item>
                                   <Link
                                     to={`/Collection?backUrl=${
-                                      "edit " + colToGo
+                                      "edit " + colToGo+" "+userToGo
                                     }`}
                                     style={{
                                       textDecoration: "none",
@@ -160,7 +166,8 @@ function CardBox() {
                                       value={collections[key]._id}
                                       size="sm"
                                     >
-                                      Edit collection
+                                      <FormattedMessage id={"app.cardBox.editCollection"}>
+                                      </FormattedMessage>
                                     </Button>
                                   </Link>
                                 </Grid>
@@ -179,8 +186,9 @@ function CardBox() {
                               style={{ textDecoration: "none" }}
                             >
                               <Button value={collections[key]._id} size="sm">
-                                Go to collection
-                              </Button>{" "}
+                                <FormattedMessage id={"app.cardBox.goToCol"}>
+                                </FormattedMessage>
+                              </Button>
                             </Link>
                           </Grid>
                           <Grid Item xs={12}>
@@ -189,7 +197,8 @@ function CardBox() {
                               style={{ textDecoration: "none", color: "black" }}
                             >
                               <Button value={userToGo} size="sm">
-                                Go to user
+                                <FormattedMessage id={"app.cardBox.goToUser"}>
+                                </FormattedMessage>
                               </Button>
                             </Link>
                           </Grid>

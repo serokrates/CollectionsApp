@@ -1,16 +1,23 @@
 const asyncHandler = require("express-async-handler");
 const Collection = require("../models/collectionsModel");
-
+const User = require("../models/userModel");
 const createCollection = asyncHandler(async (req, res) => {
-  const { name, description, topic } = req.body[1].data;
-  const user = req.user;
+  const { name, description, topic} = req.body[1].data;
+  const userReqID = req.user._id;
+  const ifAdmin = await User.findOne({userReqID})
+  let user = ""
+  if(ifAdmin.role==="admin" && ifAdmin._id.toString() !== req.user._id.toString()){
+    user = req.body[0].userID
+  }else{
+    user = req.user._id;
+  }
   if (!name || !description || !topic) {
     res.status(400);
     throw new Error("Please fill all required fields");
   }
 
   const collection = await Collection.create({
-    userID: user._id,
+    userID: user,
     name,
     description,
     topic,
@@ -57,7 +64,6 @@ const editCollection = asyncHandler(async (req, res) => {
       new: true,
     }
   );
-
   res.status(200).json(updatedCollection);
 });
 

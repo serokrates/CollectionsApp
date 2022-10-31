@@ -17,8 +17,9 @@ function CreateCollection() {
 
   const [command, setCommand] = useState(backUrl.split(" ")[0]);
   const [collectionID, setCollectionId] = useState(backUrl.split(" ")[1]);
+  const [userID, setUserId] =  useState(backUrl.split(" ")[2]);
 
-  console.log(command, collectionID);
+  console.log(command,collectionID,userID);
 
   const { name, description, topic } = formData;
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ function CreateCollection() {
     }));
   };
   const onSubmit = (e) => {
+    let d =''
     e.preventDefault();
 
     const collectionData = {
@@ -43,11 +45,21 @@ function CreateCollection() {
       description,
       topic,
     };
-    const d = [
-      { userID: user._id },
-      { data: collectionData },
-      { collectionID: collectionID },
-    ];
+
+    if(userID!==undefined){
+      d = [
+        { userID: userID },
+        { data: collectionData },
+        { collectionID: collectionID },
+      ];
+    }else if(userID===undefined){
+      d = [
+        { userID: collectionID },
+        { data: collectionData },
+        { collectionID: collectionID },
+      ];
+    }
+
     console.log(d);
     {
       command === "create"
@@ -55,7 +67,7 @@ function CreateCollection() {
         : dispatch(editCollection(d));
     }
 
-    navigate("/me");
+    navigate(-1);
   };
 
   return (

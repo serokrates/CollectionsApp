@@ -14,7 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import socketIO from "socket.io-client";
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-// import { socket } from "../features/socket/socket";
+import { FormattedMessage } from "react-intl";
 const port = process.env.PORT || 5000;
 // lokalnie
 export const socket = socketIO.connect(`socialappmateusz.herokuapp.com`);
@@ -22,8 +22,6 @@ export const socket = socketIO.connect(`socialappmateusz.herokuapp.com`);
 function CommentSection({ comments }) {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  console.log("comments.length", comments.length);
-  console.log(comments[0].itemID);
   const sendMessage = (itemID) => {
     socket.emit("post_comment", { message: itemID });
   };
@@ -48,7 +46,10 @@ function CommentSection({ comments }) {
     <>
       {comments.length !== 0 ? (
         <Box style={{ padding: 14 }} className="App">
-          <h1 align={"left"}>Comments:</h1>
+          <h1 align={"left"}>
+            <FormattedMessage id={"app.commentSection.comments"}>
+            </FormattedMessage>
+          </h1>
           <Paper
             style={{ padding: "40px 20px", border: 1, borderRadius: "10px" }}
           >
@@ -66,7 +67,9 @@ function CommentSection({ comments }) {
                         textAlign: "left",
                       }}
                     >
-                      user ID: {comments[key].userID}
+                      <FormattedMessage id={"app.viewItem.userID"}>
+                      </FormattedMessage> 
+                      {comments[key].userID}
                     </Box>
                     <Box
                       style={{
@@ -88,7 +91,9 @@ function CommentSection({ comments }) {
                         color: "gray",
                       }}
                     >
-                      added: {comments[key].createdAt}
+                      <FormattedMessage id={"app.commentSection.added"}>
+                      </FormattedMessage> 
+                      {comments[key].createdAt}
                     </p>
 
                     <Grid container alignItems="center">
@@ -109,14 +114,19 @@ function CommentSection({ comments }) {
                         <Tooltip
                           title={
                             <React.Fragment>
-                              Who likes:
+                              <FormattedMessage id={"app.commentSection.whoLikes"}>
+                              </FormattedMessage> 
                               {comments[key].whoLikes.map(({ userID }, key) => (
                                 <p key={key}> {userID}</p>
                               ))}
                             </React.Fragment>
                           }
                         >
-                          <Box sx={{fontSize: 12}}>Likes: {comments[key].whoLikes.length}</Box>
+                          <Box sx={{fontSize: 12}}>
+                            <FormattedMessage id={"app.commentSection.likes"}>
+                            </FormattedMessage>
+                            {comments[key].whoLikes.length}
+                          </Box>
                         </Tooltip>
                       </Grid>
                       <Grid item xs={4} align={"left"}
@@ -150,7 +160,7 @@ function CommentSection({ comments }) {
           </Paper>
         </Box>
       ) : (
-        <p>BO COMMENTS</p>
+        <p>NO COMMENTS</p>
       )}
     </>
   );

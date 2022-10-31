@@ -28,7 +28,6 @@ router
   .route("/me/:id")
   .post(protect, createItem)
   .put(ifOwner, updateCollection)
-  // .delete(deleteItem)
   .delete(ifOwner, deleteItem)
   .get(getItems);
 module.exports = router;

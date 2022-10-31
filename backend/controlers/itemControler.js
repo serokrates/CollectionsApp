@@ -5,6 +5,7 @@ const Comment = require("../models/commentsModel");
 
 const createItem = asyncHandler(async (req, res) => {
   const { collectionID, name, tags } = req.body;
+  
   const user = req.user;
   if (!collectionID || !name || !tags) {
     res.status(400);

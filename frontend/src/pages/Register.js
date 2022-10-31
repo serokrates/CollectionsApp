@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { register, resetUser } from "../features/auth/authSlice";
+import { FormattedMessage } from "react-intl";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -11,7 +12,7 @@ function Register() {
     password2: "",
   });
 
-  const { name, email, password, password2, status, role } = formData;
+  const { name, email, password, password2} = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -111,7 +112,8 @@ function Register() {
 
               <div class="text-center">
                 <button type="submit" class="btn btn-color px-5 mb-5 w-100">
-                  Register
+                  <FormattedMessage id={"app.register.register"}>
+                  </FormattedMessage>
                 </button>
               </div>
             </form>

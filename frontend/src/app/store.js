@@ -4,7 +4,7 @@ import usersReducer from "../features/users/usersSlice";
 import collectionsReducer from "../features/collections/collectionsSlice";
 import itemsReducer from "../features/items/itemsSlice";
 import commentsReducer from "../features/comments/commentsSlice";
-
+import languageSliceReducer from "../features/language/languageSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -12,5 +12,6 @@ export const store = configureStore({
     collections: collectionsReducer,
     items: itemsReducer,
     comments: commentsReducer,
+    language: languageSliceReducer,
   },
 });

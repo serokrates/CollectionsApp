@@ -4,12 +4,8 @@ const colors = require("colors");
 const dotenv = require("dotenv").config();
 const connectDB = require("./config/db");
 const port = process.env.PORT || 5000;
-
 connectDB();
-
 const app = express();
-////////////////////////////
-
 const http = require("http").Server(app);
 const cors = require("cors");
 
@@ -22,7 +18,6 @@ const socketIO = require("socket.io")(http, {
   },
 });
 
-//Add this before the app.get() block
 socketIO.on("connection", (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
   socket.emit("connected");
@@ -33,11 +28,7 @@ socketIO.on("connection", (socket) => {
     socket.broadcast.emit("receive_comment", data);
     console.log("🔥: data", data);
   });
-  // socket.on("get_comments", () => {
-  //   console.log("🔥: get comments");
-  // });
 });
-/////////////////////
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

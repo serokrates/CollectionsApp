@@ -1,16 +1,10 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getTopFiveCollections,
-  reset,
-} from "../features/collections/collectionsSlice";
-import { getAllTags } from "../features/items/itemsSlice";
-import CardBox from "../components/CardBox";
+
+import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import main from "../images/main.png";
 import Button from "@mui/material/Button";
+import { FormattedMessage } from "react-intl";
 function Welcome() {
 
   return ( 
@@ -18,7 +12,7 @@ function Welcome() {
         {/* sx={{ display: { xs: 'none', sm: 'block' }}} */}
         <Grid item md={6} sm={12} sx={{mt:{sm:25,xs:15}}}>
             <Box>
-                <h2 >Welcome to the collection sharig social app!</h2>
+                <h2><FormattedMessage id={"app.welcome-page.header"}></FormattedMessage></h2>
                 <Box sx={{mt:5}}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
                 luctus ut est sed faucibus. Duis bibendum ac ex vehicula
@@ -44,7 +38,7 @@ function Welcome() {
                             textDecoration: "none",
                             }}
                         >
-                            Get started
+                            <FormattedMessage id={"app.welcome-page.button"}></FormattedMessage>
                         </Button>
                     </Link>
                 </Box>
@@ -54,6 +48,7 @@ function Welcome() {
             <Box >
                 <img
                     src={main}
+                    alt="there lies an ivisible"
                     loading="lazy"
                     width="100%"
                 />

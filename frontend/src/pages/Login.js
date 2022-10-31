@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, resetUser } from "../features/auth/authSlice";
+import { FormattedMessage } from "react-intl";
 
 function Login() {
   const navigate = useNavigate();
@@ -49,7 +50,6 @@ function Login() {
 
   return (
     <>
-      {/* <Header /> */}
       <div class="container">
         <div class="row">
           <div class="col-md-6 offset-md-3">
@@ -97,18 +97,20 @@ function Login() {
                 </div>
                 <div class="text-center">
                   <button type="submit" class="btn btn-color px-5 mb-5 w-100">
-                    Login
+                    <FormattedMessage id={"app.header.login"}>
+                    </FormattedMessage>
                   </button>
                 </div>
                 <div
                   id="emailHelp"
                   class="form-text text-center mb-5 text-dark"
                 >
-                  Not Registered?{" "}
+                  <FormattedMessage id={"app.login.notRegistered"}>
+                  </FormattedMessage>
                   <Link to="/register">
                     <a href="#" class="text-dark fw-bold">
-                      {" "}
-                      Create an Account
+                      <FormattedMessage id={"app.login.createAccount"}>
+                      </FormattedMessage>
                     </a>
                   </Link>
                 </div>

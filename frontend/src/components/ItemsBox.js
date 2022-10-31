@@ -18,6 +18,7 @@ import {
 } from "../features/items/itemsSlice";
 import Title from "react-vanilla-tilt";
 import Col from "react-bootstrap/Col";
+import { FormattedMessage } from "react-intl";
 
 function ItemsBox({ items }) {
   const dispatch = useDispatch();
@@ -55,7 +56,10 @@ function ItemsBox({ items }) {
                             to={`/ViewItem/${items[key]._id}?backUrl=${items[key]._id}`}
                             state={{ item: items[key] }}
                           >
-                            <Button size="small">view</Button>
+                            <Button size="small">
+                              <FormattedMessage id={"app.itemsBox.view"}>
+                              </FormattedMessage>
+                            </Button>
                           </Link>
                         </Grid>
                         <Grid item xs={6} align="right">
@@ -88,12 +92,14 @@ function ItemsBox({ items }) {
                           variant="h6"
                           component="div"
                         >
-                          Name:
+                          <FormattedMessage id={"app.itemsBox.name"}>
+                          </FormattedMessage>
                           {items[key].name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                           <Box>
-                            Tags:
+                            <FormattedMessage id={"app.itemsBox.tags"}>
+                            </FormattedMessage>
                             {items[key].tags.map(({ user }, key2) => (
                               <> {items[key].tags[key2].text},</>
                             ))}

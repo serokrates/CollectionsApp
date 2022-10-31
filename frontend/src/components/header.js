@@ -10,7 +10,12 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { findForString } from "../features/items/itemsSlice";
 import Button from "@mui/material/Button";
-
+import { FormattedMessage } from "react-intl";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { chooseLanguage } from "../features/language/languageSlice";
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -40,17 +45,35 @@ function Header() {
       dispatch(findForString(nameData));
     }
   };
+  const [language, setLanguage] = useState('');
 
-  useEffect(() => {}, [search]);
+  const handleChange = (event) => {
+    setLanguage(event.target.value);
+    dispatch(chooseLanguage(event.target.value));
+  };
+
   return (
-    <Navbar
-      // bg="dark"
-      expand="lg"
-    >
+    <Navbar expand="lg">
       <Container>
+        <FormControl style={{minWidth:"110px"}}>
+          <InputLabel id="demo-simple-select-label">Language</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Language"
+            onChange={handleChange}
+          >
+            <MenuItem value={"PL"}>PL</MenuItem>
+            <MenuItem value={"EN"}>EN</MenuItem>
+          </Select>
+        </FormControl>
         <Link to="/Main" style={{ textDecoration: "none", color: "white" }}>
-          <Button variant="outline-success">Home</Button>
+          <Button variant="outline-success">
+            <FormattedMessage id={"app.header.home"}>
+            </FormattedMessage>
+          </Button>
         </Link>
+
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -58,19 +81,21 @@ function Header() {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            {/* <Link to="/">
-              <Nav.Link href="#action1">Home</Nav.Link>
-            </Link> */}
-
             <Link
               to="/register"
               style={{ textDecoration: "none", color: "white" }}
             >
-              <Button variant="outline-success">Register</Button>
+              <Button variant="outline-success">
+                <FormattedMessage id={"app.header.register"}>
+                </FormattedMessage>
+              </Button>
             </Link>
             {user ? (
               <Link to="/me" style={{ textDecoration: "none", color: "white" }}>
-                <Button variant="outline-success">My profile</Button>
+                <Button variant="outline-success">
+                  <FormattedMessage id={"app.header.myProfile"}>
+                  </FormattedMessage>
+                </Button>
               </Link>
             ) : (
               <></>
@@ -80,7 +105,10 @@ function Header() {
                 style={{ textDecoration: "none", color: "white" }}
                 to="/Dashboard"
               >
-                <Button variant="outline-success">Dashboard</Button>
+                <Button variant="outline-success">
+                  <FormattedMessage id={"app.header.adminPanel"}>
+                  </FormattedMessage>
+                </Button>
               </Link>
             ) : (
               <></>
@@ -100,7 +128,8 @@ function Header() {
               variant="outline-success"
               onClick={search}
             >
-              Search
+              <FormattedMessage id={"app.header.search"}>
+              </FormattedMessage>
             </Button>
           </Form>
           {user ? (
@@ -109,14 +138,18 @@ function Header() {
               variant="outline-success"
               onClick={onLogout}
             >
-              Logout
+              <FormattedMessage id={"app.header.logout"}>
+              </FormattedMessage>
             </Button>
           ) : (
             <Link
               style={{ textDecoration: "none", color: "white" }}
               to="/login"
             >
-              <Button variant="outline-success">Login</Button>
+              <Button variant="outline-success">
+                <FormattedMessage id={"app.header.login"}>
+                </FormattedMessage>
+              </Button>
             </Link>
           )}
         </Navbar.Collapse>

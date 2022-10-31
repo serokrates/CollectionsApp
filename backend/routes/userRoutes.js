@@ -11,7 +11,6 @@ const {
 
 const { protect, ifBlocked, ifAdmin,ifOwner } = require("../middleware/authMiddleware");
 
-// router.route("/").get(ifBlocked2, getAllRegisteredUsers).post(registerUser);
 router.route("/").get(getAllRegisteredUsers).post(registerUser);
 router.post("/login", loginUser);
 router.route("/me").get(protect, ifBlocked, getMe);

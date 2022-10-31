@@ -1,40 +1,29 @@
 import React, { useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUserCollections,
   reset,
 } from "../features/collections/collectionsSlice";
-import { logout, resetUser } from "../features/auth/authSlice";
 import Button from "@mui/material/Button";
 import CardBox from "../components/CardBox";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import { FormattedMessage } from "react-intl";
 
 function PrivateProfile() {
-  const { search } = useLocation();
-  const userID = new URLSearchParams(search).get("backUrl");
-  console.log(new URLSearchParams(search).get("backUrl"));
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const onLogout = () => {
-    dispatch(logout());
-    dispatch(resetUser());
-    navigate("/login");
-  };
+
   const { user } = useSelector((state) => state.auth);
-  const { collections, isLoading, isError, message } = useSelector(
+  const { isError } = useSelector(
     (state) => state.collections
   );
 
   useEffect(() => {
     window.history.replaceState({}, document.title);
     dispatch(getUserCollections(user._id));
-    if (isError) {
-      onLogout();
-      navigate("/login");
-    }
+
     if (!user) {
       navigate("/login");
     }
@@ -44,7 +33,11 @@ function PrivateProfile() {
   }, [user, navigate, isError, dispatch]);
   return (
     <Box sx={{ mt: 4 }} textAlign="center">
-      <h1>Welcome {user && user.name}</h1>
+      <h1>
+        <FormattedMessage id={"app.carduserCollection.welcome"}>
+        </FormattedMessage> 
+        {user && user.name}
+      </h1>
       <Box sx={{ mt: 8 }}>
         <Link
           to={`/Collection?backUrl=${"create"}`}
@@ -64,7 +57,8 @@ function PrivateProfile() {
               textDecoration: "none",
             }}
           >
-            create new collection
+            <FormattedMessage id={"app.createNewCollection.create"}>
+            </FormattedMessage> 
           </Button>
         </Link>
         <Grid
